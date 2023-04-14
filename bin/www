@@ -8,6 +8,16 @@ const app = require('../app');
 const debug = require('debug')('inmueble:server');
 const http = require('http');
 
+// Importamos configuraciones
+const config = require('../config/index.config');
+
+// Importamos la conexión a la base de datos
+const connection = require('../database/dbConnection');
+
+// Connectar a la base de datos
+connection(config.database);
+
+
 /**
  * Get port from environment and store in Express.
  */
