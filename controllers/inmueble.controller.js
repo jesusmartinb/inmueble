@@ -1,4 +1,5 @@
 const Inmueble = require('../models/inmueble.model')
+const { isValidObjectId } = require('mongoose')
 
 // Obtener todos los registros
 // GET /api/inmuebles
@@ -11,7 +12,7 @@ const all = async (req, res) => {
 		})
 
 		return res.status(200).json({
-			status: "succes",
+			status: "success",
 			msg: "Listado de inmuebles",
 			inmuebles
 		})
@@ -20,8 +21,32 @@ const all = async (req, res) => {
 	}
 }
 
+// Obtener un registro por su ID
 // GET /api/inmuebles/:id
-const one = (req, res) => {
+const one = async (req, res) => {
+	const { id } = req.params
+
+	try {
+		const inmueble = await Inmueble.findById(isValidObjectId(id) ? id : null)
+
+		if (!inmueble) return res.status(404).json({
+			status: "error",
+			msg: "No hemos encontrado ningún inmueble con ese ID"
+		})
+
+		return res.status(200).json({
+			status: "success",
+			msg: `Inmueble con el ID: ${id}`,
+			inmueble
+		})
+	} catch (error) {
+		throw new Error(error)
+	}
+
+
+
+
+
 	return res.status(200).send({
 		status: "success",
 		message: "Lista un inmueble"
