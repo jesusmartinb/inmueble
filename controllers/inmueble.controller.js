@@ -42,24 +42,46 @@ const one = async (req, res) => {
 	} catch (error) {
 		throw new Error(error)
 	}
-
-
-
-
-
-	return res.status(200).send({
-		status: "success",
-		message: "Lista un inmueble"
-	});
 }
 
+// Crear un nuevo registro
 // POST /api/inmuebles
-const register = (req, res) => {
-	console.log(req.body);
-	return res.status(200).send({
-		status: "success",
-		message: "Registro de un nuevo inmueble"
-	});
+const register = async (req, res) => {
+
+	// Recoger datos de la petición
+	let params = req.body
+
+	try {
+		// Control de pisos duplicados
+		const duplicado = await Inmueble.find({
+			$and: [
+				{ piso: params.piso },
+				{ letra: params.letra }
+			]
+		})
+
+		if (duplicado && duplicado.length >= 1) {
+			return res.status(200).json({
+				status: "error",
+				msg: "El inmueble ya está registrado"
+			})
+		}
+
+		const creado = await Inmueble.create(req.body)
+
+		if (!creado) return res.status(404).json({
+			status: "error",
+			msg: "No se ha podido insertar el inmueble"
+		})
+
+		return res.status(200).json({
+			status: "success",
+			msg: "Inmueble registrado en la base de datos",
+			creado
+		})
+	} catch (error) {
+		throw new Error(error)
+	}
 }
 
 // PUT /api/inmuebles/:id
