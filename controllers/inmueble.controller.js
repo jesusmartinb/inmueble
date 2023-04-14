@@ -1,10 +1,23 @@
+const Inmueble = require('../models/inmueble.model')
+
 // Obtener todos los registros
 // GET /api/inmuebles
-const all = (req, res) => {
-	return res.status(200).send({
-		status: "success",
-		message: "Listado de inmuebles"
-	});
+const all = async (req, res) => {
+	try {
+		const inmuebles = await Inmueble.find()
+		if (!inmuebles) return res.status(404).json({
+			status: "error",
+			msg: "No se han encontrado inmuebles"
+		})
+
+		return res.status(200).json({
+			status: "succes",
+			msg: "Listado de inmuebles",
+			inmuebles
+		})
+	} catch (error) {
+		throw new Error(error)
+	}
 }
 
 // GET /api/inmuebles/:id
