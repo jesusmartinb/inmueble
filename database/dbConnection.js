@@ -15,6 +15,8 @@ const connection = async ({ protocol, url, username = '', password = '' }) => {
 	try {
 		await mongoose.connect(dburl)
 		console.log('Conectado a MongoDB')
+
+		require('../models/inmueble.model')
 	} catch (error) {
 		console.log(error)
 		throw new Error('No se ha conectado a MongoDB')
