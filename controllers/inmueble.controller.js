@@ -17,6 +17,7 @@ const one = (req, res) => {
 
 // POST /api/inmuebles
 const register = (req, res) => {
+	console.log(req.body);
 	return res.status(200).send({
 		status: "success",
 		message: "Registro de un nuevo inmueble"
@@ -25,17 +26,19 @@ const register = (req, res) => {
 
 // PUT /api/inmuebles/:id
 const update = (req, res) => {
+	const { id } = req.params;
 	return res.status(200).send({
 		status: "success",
-		message: "Actualización del inmueble"
+		message: `Actualización del inmueblecon ID: ${id}`
 	});
 }
 
 // DELETE /api/inmuebles/:id
 const erase = (req, res) => {
+	const { id } = req.params;
 	return res.status(200).send({
 		status: "success",
-		message: "Eliminación del inmueble"
+		message: `Eliminación del inmueble con ID: ${id}`
 	});
 }
 
