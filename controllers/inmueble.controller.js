@@ -1,6 +1,7 @@
 const Inmueble = require('../models/inmueble.model')
 const { isValidObjectId } = require('mongoose')
 
+
 // Obtener todos los registros
 // GET /api/inmuebles
 const all = async (req, res) => {
@@ -20,6 +21,7 @@ const all = async (req, res) => {
 		throw new Error(error)
 	}
 }
+
 
 // Obtener un registro por su ID
 // GET /api/inmuebles/:id
@@ -43,6 +45,7 @@ const one = async (req, res) => {
 		throw new Error(error)
 	}
 }
+
 
 // Crear un nuevo registro
 // POST /api/inmuebles
@@ -84,14 +87,36 @@ const register = async (req, res) => {
 	}
 }
 
+
 // PUT /api/inmuebles/:id
-const update = (req, res) => {
+const update = async (req, res) => {
 	const { id } = req.params;
-	return res.status(200).send({
-		status: "success",
-		message: `Actualización del inmueblecon ID: ${id}`
-	});
+
+	try {
+		const inmueble = await Inmueble.findByIdAndUpdate(
+			isValidObjectId(id) ? id : null,
+			req.body,
+			{ new: true },
+		)
+
+		if (!inmueble) {
+			return res.status(404).json({
+				status: "error",
+				msg: "El inmueble con ese ID no existe"
+			})
+		}
+
+		res.status(200).json({
+			status: "success",
+			msg: `Se ha actualizado correctamente el inmueble con ID: ${id}`,
+			inmueble
+		})
+	} catch (error) {
+		throw new Error(error)
+	}
+
 }
+
 
 // DELETE /api/inmuebles/:id
 const erase = (req, res) => {
