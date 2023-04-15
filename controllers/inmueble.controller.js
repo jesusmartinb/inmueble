@@ -1,5 +1,6 @@
 const Inmueble = require('../models/inmueble.model')
 const { isValidObjectId } = require('mongoose')
+const { validationResult } = require('express-validator');
 
 
 // Obtener todos los registros
@@ -50,6 +51,10 @@ const one = async (req, res) => {
 // Crear un nuevo registro
 // POST /api/inmuebles
 const register = async (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() })
+	}
 
 	// Recoger datos de la petición
 	let params = req.body
@@ -59,7 +64,7 @@ const register = async (req, res) => {
 		const duplicado = await Inmueble.find({
 			$and: [
 				{ piso: params.piso },
-				{ letra: params.letra }
+				{ letra: params.letra.toUpperCase() }
 			]
 		})
 
@@ -90,6 +95,11 @@ const register = async (req, res) => {
 
 // PUT /api/inmuebles/:id
 const update = async (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() })
+	}
+
 	const { id } = req.params;
 
 	try {
