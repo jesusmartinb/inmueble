@@ -102,7 +102,7 @@ const update = async (req, res) => {
 		if (!inmueble) {
 			return res.status(404).json({
 				status: "error",
-				msg: "El inmueble con ese ID no existe"
+				msg: "El inmueble con ese ID no existe, no se puede actualizar"
 			})
 		}
 
@@ -119,12 +119,27 @@ const update = async (req, res) => {
 
 
 // DELETE /api/inmuebles/:id
-const erase = (req, res) => {
+const erase = async (req, res) => {
 	const { id } = req.params;
-	return res.status(200).send({
-		status: "success",
-		message: `Eliminación del inmueble con ID: ${id}`
-	});
+
+	try {
+		const inmueble = await Inmueble.findByIdAndDelete(isValidObjectId(id) ? id : null)
+
+		if (!inmueble) {
+			return res.status(404).json({
+				status: "error",
+				msg: 'El inmueble con ese ID no existe, no se puede borrar'
+			})
+		}
+
+		res.status(200).json({
+			status: "success",
+			msg: `Ha sido borrado el inmueble con ID: ${id}`
+		})
+	} catch (error) {
+		throw new Error(error)
+	}
+
 }
 
 module.exports = {
