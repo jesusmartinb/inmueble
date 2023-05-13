@@ -6,7 +6,7 @@ const { pagination } = require('../config/index.config');
 
 // Obtener todos los registros paginados
 // GET /api/inmuebles/list/:page?
-const all = async (req, res) => {
+const allPaginate = async (req, res) => {
 
 	// opciones de paginación
 	const options = pagination
@@ -107,7 +107,7 @@ const register = async (req, res) => {
 	}
 }
 
-
+// Actualiza un registro
 // PUT /api/inmuebles/:id
 const update = async (req, res) => {
 	const errors = validationResult(req)
@@ -142,7 +142,7 @@ const update = async (req, res) => {
 
 }
 
-
+// Borrar un registro
 // DELETE /api/inmuebles/:id
 const erase = async (req, res) => {
 	const { id } = req.params;
@@ -168,7 +168,7 @@ const erase = async (req, res) => {
 }
 
 module.exports = {
-	all,
+	allPaginate,
 	one,
 	register,
 	update,
