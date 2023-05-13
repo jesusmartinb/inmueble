@@ -1,0 +1,40 @@
+@host = http://localhost:3000
+
+GET {{host}}/api/inmuebles
+
+###
+GET {{host}}/api/inmuebles/list/3
+
+###
+GET {{host}}/api/inmuebles/6432f653140d0b6d95adba3a
+
+###
+POST {{host}}/api/inmuebles
+Content-Type: application/json
+
+{
+    "piso": 1,
+    "letra": "B",
+    "extension": 80,
+    "habitaciones": 3,
+    "alquilado": true,
+    "nombrePropietario": "Albert Garcia Garcia",
+    "emailContacto": "albert.garcia@gmail.com"
+}
+
+###
+PUT {{host}}/api/inmuebles/643a7cab4a32cb0984620ed7
+Content-Type: application/json
+
+{
+    "piso": 4,
+    "letra": "A",
+    "extension": 95,
+    "habitaciones": 3,
+    "alquilado": true,
+    "nombrePropietario": "pedro picapiedra rocadura",
+    "emailContacto": "pedro.picapiedra@gmail.com"
+}
+
+###
+DELETE {{host}}/api/inmuebles/6432f4c1140d0b6d95adba30
