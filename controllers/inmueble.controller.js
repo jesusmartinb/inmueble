@@ -4,6 +4,27 @@ const { validationResult } = require('express-validator');
 const { pagination } = require('../config/index.config');
 
 
+// Obtener todos los registros
+// GET /api/inmuebles
+const all = async (req, res) => {
+	try {
+		const inmuebles = await Inmueble.find()
+		if (!inmuebles) return res.status(404).json({
+			status: "error",
+			msg: "No se han encontrado inmuebles"
+		})
+
+		return res.status(200).json({
+			status: "success",
+			msg: "Listado de inmuebles",
+			inmuebles
+		})
+	} catch (error) {
+		throw new Error(error)
+	}
+}
+
+
 // Obtener todos los registros paginados
 // GET /api/inmuebles/list/:page?
 const allPaginate = async (req, res) => {
@@ -168,6 +189,7 @@ const erase = async (req, res) => {
 }
 
 module.exports = {
+	all,
 	allPaginate,
 	one,
 	register,
