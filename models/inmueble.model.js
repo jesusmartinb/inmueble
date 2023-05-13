@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+const { model, Schema } = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2')
 
-const inmuebleSchema = new mongoose.Schema({
+const inmuebleSchema = new Schema({
 	piso: {
 		type: Number,
 		required: true,
@@ -56,6 +56,6 @@ const inmuebleSchema = new mongoose.Schema({
 
 inmuebleSchema.plugin(mongoosePaginate)
 
-const Inmueble = mongoose.model('inmueble', inmuebleSchema)
+const Inmueble = model('inmueble', inmuebleSchema)
 
 module.exports = Inmueble

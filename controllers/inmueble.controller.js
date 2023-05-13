@@ -20,7 +20,7 @@ const all = async (req, res) => {
 			inmuebles
 		})
 	} catch (error) {
-		throw new Error(error)
+		res.json({ fatal: error.message });
 	}
 }
 
@@ -55,7 +55,7 @@ const allPaginate = async (req, res) => {
 			}
 		)
 	} catch (error) {
-		throw new Error(error)
+		res.json({ fatal: error.message });
 	}
 }
 
@@ -79,7 +79,7 @@ const one = async (req, res) => {
 			inmueble
 		})
 	} catch (error) {
-		throw new Error(error)
+		res.json({ fatal: error.message });
 	}
 }
 
@@ -124,7 +124,7 @@ const register = async (req, res) => {
 			creado
 		})
 	} catch (error) {
-		throw new Error(error)
+		res.json({ fatal: error.message });
 	}
 }
 
@@ -142,8 +142,8 @@ const update = async (req, res) => {
 		const inmueble = await Inmueble.findByIdAndUpdate(
 			isValidObjectId(id) ? id : null,
 			req.body,
-			{ new: true },
-		)
+			{ new: true }
+		);
 
 		if (!inmueble) {
 			return res.status(404).json({
@@ -158,7 +158,7 @@ const update = async (req, res) => {
 			inmueble
 		})
 	} catch (error) {
-		throw new Error(error)
+		res.json({ fatal: error.message });
 	}
 
 }
@@ -183,7 +183,7 @@ const erase = async (req, res) => {
 			msg: `Ha sido borrado el inmueble con ID: ${id}`
 		})
 	} catch (error) {
-		throw new Error(error)
+		res.json({ fatal: error.message });
 	}
 
 }
